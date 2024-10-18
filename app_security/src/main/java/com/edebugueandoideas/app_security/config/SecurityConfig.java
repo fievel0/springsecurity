@@ -9,7 +9,10 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    @Bean
+
+    //Cualquiera de las dos configuraciones funciona
+    //Primera configuración
+   /* @Bean
     public SecurityFilterChain securityFilterChain(@org.jetbrains.annotations.NotNull HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable()) // Si deseas desactivar CSRF, pero no es recomendable en producción
@@ -25,5 +28,17 @@ public class SecurityConfig {
                 );
 
         return http.build();
+    }*/
+
+    //Segunda configuración
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws  Exception{
+        return httpSecurity
+                .authorizeHttpRequests( auth -> {
+                    auth.requestMatchers("/v1/index2").permitAll();
+                    auth.anyRequest().authenticated();
+                })
+                .formLogin().permitAll()
+                .and()
+                .build();
     }
 }
