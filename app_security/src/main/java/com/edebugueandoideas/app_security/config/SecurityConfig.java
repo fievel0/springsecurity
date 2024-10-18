@@ -12,7 +12,7 @@ public class SecurityConfig {
 
     //Cualquiera de las dos configuraciones funciona
     //Primera configuración
-   /* @Bean
+   /*@Bean
     public SecurityFilterChain securityFilterChain(@org.jetbrains.annotations.NotNull HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable()) // Si deseas desactivar CSRF, pero no es recomendable en producción
@@ -31,6 +31,7 @@ public class SecurityConfig {
     }*/
 
     //Segunda configuración
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws  Exception{
         return httpSecurity
                 .authorizeHttpRequests( auth -> {
