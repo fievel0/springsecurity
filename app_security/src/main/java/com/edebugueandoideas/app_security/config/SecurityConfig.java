@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -13,8 +15,8 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 public class SecurityConfig {
 
     //Cualquiera de las dos configuraciones funciona
-    //Primera configuración
-   /*@Bean
+    //Primera configuración actualizada, las otras dos son obsoletas
+/*   @Bean
     public SecurityFilterChain securityFilterChain(@org.jetbrains.annotations.NotNull HttpSecurity http) throws Exception {
         http
                 //.csrf(csrf -> csrf.disable()) // Si deseas desactivar CSRF, pero no es recomendable en producción
@@ -32,7 +34,7 @@ public class SecurityConfig {
         return http.build();
     }*/
 
-    //Segunda configuración
+  /*  //Segunda configuración
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws  Exception{
         return httpSecurity
@@ -49,17 +51,41 @@ public class SecurityConfig {
                     .invalidSessionUrl("/login")
                     .maximumSessions(1)
                     .expiredUrl("/login")
+                .sessionRegistry(sessionRegistry())
                 .and()
                 .sessionFixation()//otra vulnerabilidad de aplicacciones web cuando se trabaja con sesiones
                     .migrateSession()//para generar diferentes id de sessión y un atacante no pueda hacer daño ahi
                 .and()
+                .httpBasic()
+                .and()
                 .build();
+    }*/
+
+    @Bean
+    public SessionRegistry sessionRegistry(){
+
+        return new SessionRegistryImpl();
     }
 
     public AuthenticationSuccessHandler successHandler(){
-        return((request, response, authentication) -> {
-           response.sendRedirect("/v1/index");
+        return ((request, response, authentication) -> {
+           response.sendRedirect("/v1/session");
 
         });
+    }
+
+    //Tercera configuración
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws  Exception {
+        return httpSecurity
+            .authorizeHttpRequests()
+                .requestMatchers("/v1/index2").permitAll()
+                .anyRequest().authenticated()
+        .and()
+        .formLogin().permitAll()
+        .and()
+        .httpBasic()
+        .and()
+        .build();
     }
 }
