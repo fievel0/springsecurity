@@ -1,4 +1,6 @@
-Configuración de un Spring Security en pasos y con comentarios guias
+Configuración de un Spring Security en pasos y con comentarios guias que pueden 
+
+hacer modificaciones solo en JWT porque main es para deploy, recuerden no main
 
 para que cualquier persona pueda descargarselo y configurar a su conveniencia
 
