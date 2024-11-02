@@ -24,7 +24,7 @@ public class SpringSecurityJwtApplication {
 
 	@Autowired
 	UserRepository userRepository;
-
+	//USUARIOS INICIALES
 	@Bean
 	CommandLineRunner init(){
 		return args -> {

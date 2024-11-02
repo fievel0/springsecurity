@@ -17,6 +17,7 @@ import java.util.Set;
 @Builder
 @Entity
 @Table(name = "users")
+//CREACION DE LA ENTIDAD Y LA BASE DE DATOS QUE SE PUEDE VER EL NOMBRE EN APLICATION PROPERTIES
 public class UserEntity {
 
     @Id
