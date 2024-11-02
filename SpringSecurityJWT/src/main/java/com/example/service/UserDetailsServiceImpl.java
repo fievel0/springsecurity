@@ -2,7 +2,6 @@ package com.example.service;
 
 import com.example.models.UserEntity;
 import com.example.repositories.UserRepository;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,22 +22,21 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        UserEntity userEntity =  userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException
-                                ("El usuario" + username + "no existe"));
+        UserEntity userEntity = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("El usuario " + username + " no existe"));
 
-        Collection<? extends GrantedAuthority> authorities = userEntity
-                .getRoles()
+        Collection<? extends GrantedAuthority> authorities = userEntity.getRoles()
                 .stream()
-                .map(role -> new SimpleGrantedAuthority("ROLE".concat(role.getName().name())))
+                .map(role -> new SimpleGrantedAuthority("ROLE_".concat(role.getName().name())))
                 .collect(Collectors.toSet());
 
-            return new User(userEntity.getUsername(),
-                    userEntity.getPassword(),
-                    true,
-                    true,
-                    true,
-                    true,
-                    authorities);
+        return new org.springframework.security.core.userdetails.User(
+                userEntity.getUsername(),
+                userEntity.getPassword(),
+                true, // accountNonExpired
+                true, // accountNonLocked
+                true, // credentialsNonExpired
+                true, // enabled
+                authorities);
     }
 }

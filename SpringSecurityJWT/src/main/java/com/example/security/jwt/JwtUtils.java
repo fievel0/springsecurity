@@ -21,7 +21,7 @@ public class JwtUtils {
     @Value("${jwt.secret.key}")
     private String secretKey;
 
-    @Value("${jwt.secret.time}")
+    @Value("${jwt.expiration.time}")
     private Long timeExpiration;
 
     //Crear un token de acceso

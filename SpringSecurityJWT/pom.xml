@@ -94,6 +94,13 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>6.3.3</version> <!-- Asegúrate de usar una versión compatible -->
+		</dependency>
+
 	</dependencies>
 
 	<build>
